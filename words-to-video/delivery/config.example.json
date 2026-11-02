@@ -1,0 +1,28 @@
+{
+  "skill": "words-to-video",
+  "default_adapter": "comfyui_local",
+  "consent_required": true,
+  "adapters": {
+    "comfyui_local": {
+      "type": "comfyui_local",
+      "base_url": "http://127.0.0.1:8188",
+      "prompt_endpoint": "/prompt",
+      "history_endpoint": "/history",
+      "workflow_file": "comfyui_minimax_video.json",
+      "poll_interval_sec": 3,
+      "timeout_sec": 600
+    },
+    "cloud_minimax": {
+      "type": "cloud_minimax",
+      "api_base": "https://api.minimax.io/v1",
+      "api_key_env": "MINIMAX_API_KEY",
+      "group_id_env": "MINIMAX_GROUP_ID",
+      "model": "video-01",
+      "poll_interval_sec": 5,
+      "timeout_sec": 1800
+    }
+  },
+  "cost_report": {
+    "notify_before_submit": true
+  }
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>场景资料卡 · 左二右四布局参照（6:5，一整张图＝一段提示词）</title>
+<!--
+  本文件是「左二右四布局参照」，用于撰写第十一步场景卡的单段提示词，也是场景卡版的唯一版式基准。
+  场景卡 = 一整张图 = 一段提示词：模型一次生图产出整卡，不分张、不裁切分发。
+
+  版式固定为「左二右四」（提示词必须逐格点名格位与标签，不得改成上下两段、不得互换顺序）：
+    顶栏（通栏，约 96px）        左：标题「场景板 · 场景01」＋副题「地点（场地类型 · 叙事属性）」
+                                 右：两行——项目名称／场次，环境说明（时间 · 光位 · 天气 · 场地）
+    左列（约 64% 宽，上下两格）  上格「上 · 全景微缩图 · V01」：轴测/掀顶沙盘，定空间结构
+                                 下格「下 · 人眼视角 · V02」：眼高广角写实，沿用上格结构与陈设
+    右列（约 34% 宽，四格竖排）  远景1 · V03 ／ 远景2 · V04 ／ 远景3 · V05 ／ 远景4 · V06
+                                 每格画一张真实取景（物件名 ＋ 景别），不是"标裁切的局部示意"
+    每格：左上角描边框小标签；格下一条说明条「格位：一句取景释义」（≤24 字）
+    底栏（通栏，约 48px）        资产编号 · 版式说明 · 提示词版本 · 底色 · 色调三词
+
+  几何（出图 1800×1500，6:5）：外边距 24；顶栏 96；左列 1120、右列 602、中缝 30；
+    左格 1120×605（1.85:1，裁到 16:9 仅损 3% 宽）；右格 602×281（约 2.14:1）；说明条 32～44；底栏 48。
+  此 HTML 不是渲染模板、不裁切，浏览器预览宽度与出图分辨率无关。
+  配色占位取自 templates/style-palette.md，项目 S5 定稿后替换为真实风格色。
+-->
+<style>
+  :root{
+    --base:#F5F5F5;        /* 图底/卡基：主色浅派生（非纯白） */
+    --band:#F4F4F4;        /* 顶栏/标注带：辅助色浅版 */
+    --rule:#B9B9B9;        /* 分区细框 */
+    --rule-heavy:#1A1A1A;  /* 通栏重线/顶栏底线：主色深版 */
+    --ink:#1A1A1A;         /* 艺术字/正文：主色深版 */
+    --ink2:#555555;        /* 弱文字 */
+    --tag:#4A5A44;         /* 编号色块：辅助色深版 */
+    --art-font:"Songti SC","SimSun",serif;
+    --label-font:"Heiti SC","SimHei",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ECECEC;padding:22px;
+    font-family:"Songti SC","SimSun","KaiTi",serif;color:var(--ink);}
+  .wrap{width:100%;max-width:1180px;margin:0 auto;}
+
+  /* 整卡 6:5（横版） */
+  .sheet{width:100%;aspect-ratio:6/5;background:var(--base);
+    border:1.5px solid var(--ink);border-radius:3px;overflow:hidden;
+    display:flex;flex-direction:column;}
+
+  /* 顶栏 */
+  .hdr{flex:0 0 6.4%;display:flex;justify-content:space-between;align-items:center;
+    background:var(--band);border-bottom:2px solid var(--rule-heavy);padding:0 18px;}
+  .hdr .t{font-family:var(--label-font);font-weight:700;font-size:17px;letter-spacing:1px;}
+  .hdr .s{font-size:12px;color:var(--ink2);margin-top:2px;}
+  .hdr .r{text-align:right;font-size:11px;color:var(--ink2);line-height:1.7;}
+  .hdr .r b{color:var(--ink);font-weight:500;}
+
+  /* 主体：左二右四 */
+  .body{flex:1 1 auto;min-height:0;display:flex;gap:14px;padding:12px 16px 8px;}
+  .left{flex:0 0 63.9%;min-width:0;display:flex;flex-direction:column;gap:10px;}
+  .right{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:8px;}
+
+  .cell{display:flex;flex-direction:column;min-height:0;flex:1 1 0;}
+  .img{position:relative;flex:1 1 auto;min-height:0;border:1.5px solid var(--ink);
+    border-radius:2px;background:var(--base);overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;font-size:10.5px;line-height:1.7;color:var(--ink2);}
+  .right .img{border-color:var(--rule);}
+  .img .tag{position:absolute;top:5px;left:5px;background:var(--band);
+    border:1px solid var(--rule);border-radius:2px;padding:0 7px;
+    font-family:var(--label-font);font-size:10px;color:var(--ink2);}
+  .img .shot{font-size:11px;color:var(--ink);}
+  .cap{flex:0 0 auto;margin-top:4px;height:19px;line-height:19px;text-align:center;
+    border:1px solid var(--rule);border-radius:2px;background:var(--band);
+    font-size:10px;color:var(--ink2);overflow:hidden;white-space:nowrap;}
+  .cap b{font-weight:500;color:var(--ink);}
+
+  /* 底栏 */
+  .foot{flex:0 0 3.2%;display:flex;justify-content:space-between;align-items:center;
+    background:var(--rule-heavy);color:#F2F2F2;padding:0 18px;font-size:10px;letter-spacing:.4px;}
+  .foot b{font-family:var(--label-font);font-weight:700;letter-spacing:1px;color:#fff;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="sheet">
+
+    <div class="hdr">
+      <div class="l">
+        <div class="t">场景板 · 场景01</div>
+        <div class="s">贺府门前（乡村院落 · 门户）</div>
+      </div>
+      <div class="r">
+        <b>项目名称</b>：〔篇名〕　<b>场次</b>：S1<br>
+        <b>环境说明</b>：黄昏 · 暖黄低角度光 · 秋日微风 · 乡村院落
+      </div>
+    </div>
+
+    <div class="body">
+
+      <!-- 左列：V01 / V02 -->
+      <div class="left">
+        <div class="cell">
+          <div class="img"><span class="tag">上 · 全景微缩图 · V01</span>
+            轴测／鸟瞰微缩全景占位<br>展示整体地形 · 建筑布局 · 光照氛围</div>
+          <span class="cap"><b>上</b>：全景微缩场景图 — 俯视／俯角整体，见全局格局与光影</span>
+        </div>
+        <div class="cell">
+          <div class="img"><span class="tag">下 · 人眼视角 · V02</span>
+            人眼平视／广角实景占位<br>角色站在场景中所见 · 空间纵深</div>
+          <span class="cap"><b>下</b>：人眼视角场景 — 平视／广角，强调沉浸感与纵深</span>
+        </div>
+      </div>
+
+      <!-- 右列：V03–V06 四张取景 -->
+      <div class="right">
+        <div class="cell">
+          <div class="img"><span class="tag">远景1 · V03</span><span class="shot">柴门铁环（中景）</span></div>
+          <span class="cap">锈死铁环，包浆岁月的门环</span>
+        </div>
+        <div class="cell">
+          <div class="img"><span class="tag">远景2 · V04</span><span class="shot">白墙墙角（特写）</span></div>
+          <span class="cap">墙根青苔与剥落，久无人气的斑驳</span>
+        </div>
+        <div class="cell">
+          <div class="img"><span class="tag">远景3 · V05</span><span class="shot">老树枝桠（中景）</span></div>
+          <span class="cap">院内老树枯枝，见证多年的熟稔光影</span>
+        </div>
+        <div class="cell">
+          <div class="img"><span class="tag">远景4 · V06</span><span class="shot">石径暮光（特写）</span></div>
+          <span class="cap">门前石径映晚光，归人踩出的温润一径</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="foot">
+      <span><b>资产编号 场景01</b> · 场景板（左：V01 微缩全景 ＋ V02 人眼视角；右：V03–V06 四张取景）· 提示词 v3</span>
+      <span>〔底色〕·〔色调三词〕</span>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

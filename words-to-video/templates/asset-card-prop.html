@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>道具资料卡 · 四宫格布局参照（5:6，一整张图＝一段提示词）</title>
+<!--
+  本文件是「四宫格布局参照」，用于撰写第十步道具卡的单段提示词，也是道具卡版的唯一版式基准。
+  道具卡 = 一整张图 = 一段提示词：模型一次生图产出整卡，不分张、不裁切分发。
+
+  版式固定为四宫格（提示词必须逐格点名格位与标签，不得改成三格/五格，不得互换顺序）：
+    顶栏（通栏，约 110px）      左：标题「道具板 · 道具01」＋副题「名称（材质 · 形制特征）」
+                                右：四字段两行——项目名称／关联角色／关联场景／材质
+    第一行 左格「正面」         道具本体正面，白底扣底，1:1
+    第一行 右格「侧面」         道具本体侧面，白底扣底，1:1
+    第二行 左格「背面」         道具本体背面，白底扣底，1:1
+    第二行 右格「入戏画面」     与场景/角色同框，成片光影，1:1
+    每格：左上角描边框小标签；格下一条说明条「格位：一句形制/取景特征」（≤24 字）
+    底栏（通栏，约 60px）       资产编号 · 版式说明 · 提示词版本 · 底色 · 色调三词
+
+  几何（出图 1500×1800，5:6）：外边距 30；顶栏 110；格 712×712；说明条 44；中缝 16；行距 22；底栏 60。
+  此 HTML 不是渲染模板、不裁切，浏览器预览宽度与出图分辨率无关。
+  配色占位取自 templates/style-palette.md，项目 S5 定稿后替换为真实风格色。
+-->
+<style>
+  :root{
+    --base:#F5F5F5;        /* 图底/卡基：主色浅派生（非纯白） */
+    --band:#F4F4F4;        /* 顶栏/标注带：辅助色浅版 */
+    --rule:#B9B9B9;        /* 分区细框 */
+    --rule-heavy:#1A1A1A;  /* 通栏重线/顶栏底线：主色深版 */
+    --ink:#1A1A1A;         /* 艺术字/正文：主色深版 */
+    --ink2:#555555;        /* 弱文字 */
+    --tag:#4A5A44;         /* 编号色块：辅助色深版 */
+    --art-font:"Songti SC","SimSun",serif;
+    --label-font:"Heiti SC","SimHei",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ECECEC;padding:22px;
+    font-family:"Songti SC","SimSun","KaiTi",serif;color:var(--ink);}
+  .wrap{width:100%;max-width:820px;margin:0 auto;}
+
+  /* 整卡 5:6（竖版） */
+  .sheet{width:100%;aspect-ratio:5/6;background:var(--base);
+    border:1.5px solid var(--ink);border-radius:3px;overflow:hidden;
+    display:flex;flex-direction:column;}
+
+  /* 顶栏 */
+  .hdr{flex:0 0 6.1%;display:flex;justify-content:space-between;align-items:center;
+    background:var(--band);border-bottom:2px solid var(--rule-heavy);padding:0 16px;}
+  .hdr .t{font-family:var(--label-font);font-weight:700;font-size:17px;letter-spacing:1px;}
+  .hdr .s{font-size:12px;color:var(--ink2);margin-top:2px;}
+  .hdr .r{text-align:right;font-size:11px;color:var(--ink2);line-height:1.7;}
+  .hdr .r b{color:var(--ink);font-weight:500;}
+
+  /* 四宫格 */
+  .grid{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;gap:22px 16px;padding:14px 16px 10px;}
+  .cell{display:flex;flex-direction:column;min-height:0;}
+  .img{position:relative;flex:1 1 auto;min-height:0;border:1.5px solid var(--ink);
+    border-radius:2px;background:var(--base);overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;font-size:10.5px;line-height:1.7;color:var(--ink2);}
+  .img .tag{position:absolute;top:5px;left:5px;background:var(--band);
+    border:1px solid var(--rule);border-radius:2px;padding:0 7px;
+    font-family:var(--label-font);font-size:10px;color:var(--ink2);}
+  /* 入戏格：成片光影，不回风格浅色底 */
+  .img.ingame{background:repeating-linear-gradient(135deg,#E3E3E3 0 10px,#DADADA 10px 20px);}
+  .cap{flex:0 0 auto;margin-top:5px;height:20px;line-height:20px;text-align:center;
+    border:1px solid var(--rule);border-radius:2px;background:var(--band);
+    font-size:10px;color:var(--ink2);overflow:hidden;white-space:nowrap;}
+  .cap b{font-weight:500;color:var(--ink);}
+
+  /* 底栏 */
+  .foot{flex:0 0 3.4%;display:flex;justify-content:space-between;align-items:center;
+    background:var(--rule-heavy);color:#F2F2F2;padding:0 16px;font-size:10px;letter-spacing:.4px;}
+  .foot b{font-family:var(--label-font);font-weight:700;letter-spacing:1px;color:#fff;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="sheet">
+
+    <div class="hdr">
+      <div class="l">
+        <div class="t">道具板 · 道具01</div>
+        <div class="s">木杖（红棕木纹 · 老疤随形）</div>
+      </div>
+      <div class="r">
+        <b>项目名称</b>：〔篇名〕　<b>关联角色</b>：角色01-造型A（老翁）<br>
+        <b>关联场景</b>：场景01（贺府门前 · V02）　<b>材质</b>：红棕木 · 旧漆剥落
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="cell">
+        <div class="img"><span class="tag">正面</span>道具本体正面占位<br>白底 · 1:1 · 红棕木纹 / 顶端磨亮</div>
+        <span class="cap"><b>正面</b>：杖身通直，顶端木瘤，深色包浆</span>
+      </div>
+      <div class="cell">
+        <div class="img"><span class="tag">侧面</span>道具本体侧面占位<br>白底 · 1:1 · 杖身微弧</div>
+        <span class="cap"><b>侧面</b>：微弧，全长下直，底端磨损</span>
+      </div>
+      <div class="cell">
+        <div class="img"><span class="tag">背面</span>道具本体背面占位<br>白底 · 1:1 · 纹理断续</div>
+        <span class="cap"><b>背面</b>：旧裂纹交错，木色偏淡</span>
+      </div>
+      <div class="cell">
+        <div class="img ingame"><span class="tag">入戏画面</span>与场景／角色同框占位<br>成片光影 · 道具仍为主体</div>
+        <span class="cap"><b>入戏</b>：老翁拄杖立于门前，木杖嵌入暮色院落</span>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span><b>资产编号 道具01</b> · 道具板（四宫格：正／侧／背 ＋ 入戏画面）· 提示词 v3</span>
+      <span>〔底色〕·〔色调三词〕</span>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

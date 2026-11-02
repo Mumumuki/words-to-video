@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>角色资料卡 · 五区布局参照（6:5，一整张图＝一段提示词）</title>
+<!--
+  本文件是「五区布局参照」，用于撰写第九步角色卡的单段提示词，也是角色卡版的唯一版式基准。
+  角色卡 = 一整张图 = 一段提示词：模型一次生图产出整卡，不分张、不裁切分发。
+
+  五区固定分区（提示词必须逐区点名占比与内容，不得互换、增删、留空）：
+    —— 纵向分三段：顶栏约 7% / 上半区约 60% / 下半区约 33% ——
+    ① 顶栏（通栏，约 7% 高）      左：标题＋一行人物概括；右三行小字：项目名称／关联场景／造型·形制
+    ② 主视觉（上半区左栏 25%）     半身人像：自头顶裁到腰胯、正面、脸部完整不遮
+    ③ 三视图（上半区右栏 75%）     正视图／侧视图／后视图，等宽三张全身竖图，各带角标
+                                   正、侧视图的面部用中性灰正圆遮罩盖住五官；后视图不露脸，不遮
+                                   —— 脸只出现在 ② 与 ⑤ 里，三视图只交代形制、比例与层次 ——
+    —— 2px 深色通栏分割线（约 67% 处）——
+    ④ 角色信息（下半区左 30%）     六行键值表，每行下压细线，缺项写「不详」
+    ⑤ 细节特写（下半区右 70%）     四张等宽 3:4 竖图：左侧面／右侧面／右眼部极度近景／后面发型
+
+  注意：②③ 只占上半区，不是「纵向通高」——通高会把 ④⑤ 的下半身位挤掉。
+
+  此 HTML 不是渲染模板、不裁切，浏览器预览宽度与出图分辨率无关。
+  出图规格：1920×1600（6:5）。配色占位取自 templates/style-palette.md，项目 S5 定稿后替换为真实风格色。
+  故事板 ① 区取人像时，crop 取左侧主视觉区（约 [0.02, 0.08, 0.26, 0.66]），不要整卡去背。
+-->
+<style>
+  :root{
+    --base:#F5F5F5;        /* 图底/卡基：主色浅派生（非纯白） */
+    --band:#F4F4F4;        /* 顶栏/标注带：辅助色浅版 */
+    --rule:#B9B9B9;        /* 分区细框 */
+    --rule-heavy:#1A1A1A;  /* 通栏重线/顶栏底线：主色深版 */
+    --ink:#1A1A1A;         /* 艺术字/正文：主色深版 */
+    --ink2:#555555;        /* 弱文字 */
+    --tag:#4A5A44;         /* 辅助色深版（信息表竖线、底部编号条） */
+    --art-font:"Songti SC","SimSun",serif;
+    --label-font:"Heiti SC","SimHei",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ECECEC;padding:22px;
+    font-family:"Songti SC","SimSun","KaiTi",serif;color:var(--ink);}
+  .wrap{width:100%;max-width:1200px;margin:0 auto;}
+
+  /* 整卡 6:5 */
+  .sheet{width:100%;aspect-ratio:6/5;background:var(--base);
+    border:1.5px solid var(--ink);border-radius:3px;overflow:hidden;
+    display:flex;flex-direction:column;}
+
+  /* ① 顶栏 */
+  .hdr{flex:0 0 7.2%;display:flex;justify-content:space-between;align-items:center;
+    background:var(--band);border-bottom:2px solid var(--rule-heavy);padding:0 16px;}
+  .hdr .t{font-family:var(--label-font);font-weight:700;font-size:17px;letter-spacing:1px;}
+  .hdr .s{font-size:12px;color:var(--ink2);margin-top:2px;}
+  .hdr .r{text-align:right;font-size:11px;color:var(--ink2);line-height:1.6;}
+  .hdr .r b{color:var(--ink);font-weight:500;}
+
+  /* 上半区：② 主视觉 + ③ 三视图 */
+  .top{flex:1 1 0;min-height:0;display:flex;gap:18px;padding:14px 16px 10px;}
+
+  .heroCol{flex:0 0 25%;min-width:0;display:flex;flex-direction:column;}
+  /* ② 区只放人像：不再有「服装形制」小字行与造型色块——那行字会落进故事板 ① 区的
+     取图范围，让白底去背直接失败；形制由 ③ 三视图交代，着装气质写在 ④ 表里。 */
+  .hero{flex:1 1 auto;min-height:0;position:relative;border:1.5px solid var(--ink);border-radius:2px;
+    background:var(--base);overflow:hidden;}
+
+  /* 人像占位（版式示意，非实际出图） */
+  .figHalf{position:absolute;inset:0;}
+  .figHalf .head{position:absolute;left:50%;top:9%;transform:translateX(-50%);
+    width:46%;aspect-ratio:1;border-radius:50%;background:#DCDCDC;border:1px solid #C6C6C6;}
+  .figHalf .torso{position:absolute;left:50%;top:36%;bottom:0;transform:translateX(-50%);
+    width:88%;background:#E7E7E7;border:1px solid #D5D5D5;border-bottom:none;
+    border-radius:46% 46% 0 0 / 20% 20% 0 0;}
+  .heroNote{position:absolute;left:0;right:0;bottom:0;text-align:center;padding:3px 0;
+    font-size:9.5px;color:var(--ink2);line-height:1.45;background:rgba(245,245,245,.9);}
+
+  .figFull{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:44%;height:78%;}
+  .figFull .head{position:absolute;left:50%;top:0;transform:translateX(-50%);
+    width:46%;aspect-ratio:1;border-radius:50%;background:#DCDCDC;border:1px solid #C6C6C6;}
+  .figFull .torso{position:absolute;left:50%;top:16%;transform:translateX(-50%);
+    width:100%;height:38%;background:#E7E7E7;border:1px solid #D5D5D5;
+    border-radius:44% 44% 3px 3px;}
+  .figFull .legs{position:absolute;left:50%;top:52%;bottom:0;transform:translateX(-50%);
+    width:66%;background:#EDEDED;border:1px solid #DADADA;border-top:none;
+    border-radius:0 0 3px 3px;}
+  /* 面部灰圆遮罩：与头部同径、略下移，上缘留出头顶发巾、下缘盖过下巴 */
+  .figFull .fmask{position:absolute;left:50%;top:2.5%;transform:translateX(-50%);
+    width:46%;aspect-ratio:1;border-radius:50%;background:#8C8C8C;}
+  .vmask{position:absolute;left:0;right:0;bottom:0;text-align:center;padding:3px 0;
+    font-size:9.5px;color:var(--ink2);line-height:1.45;background:rgba(245,245,245,.9);}
+
+  .viewsCol{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;}
+  .sub2{font-family:var(--label-font);font-weight:700;font-size:13px;color:var(--ink);
+    border-left:3px solid var(--tag);padding-left:8px;margin-bottom:8px;}
+  .views{flex:1 1 auto;min-height:0;display:flex;gap:14px;}
+  .view{position:relative;flex:1 1 0;min-width:0;border:1.5px solid var(--rule);border-radius:2px;
+    background:var(--base);overflow:hidden;}
+  .view .tag{position:absolute;top:5px;left:5px;background:var(--band);border:1px solid var(--rule);
+    border-radius:2px;padding:0 6px;font-family:var(--label-font);font-size:10px;color:var(--ink2);}
+
+  /* 2px 通栏分割线 */
+  .rule{flex:0 0 2px;background:var(--rule-heavy);}
+
+  /* 下半区：④ 角色信息 + ⑤ 细节特写 */
+  .bottom{flex:0 0 33%;min-height:0;display:grid;grid-template-columns:30fr 70fr;gap:18px;
+    padding:10px 16px 14px;}
+  .col{min-width:0;display:flex;flex-direction:column;}
+  .col h3{font-family:var(--label-font);font-weight:700;font-size:13px;margin:0 0 8px;
+    border-left:3px solid var(--tag);padding-left:8px;}
+
+  /* ④ 六行键值表 */
+  .info table{width:100%;border-collapse:collapse;font-size:11.5px;flex:1 1 auto;table-layout:fixed;}
+  .info td{padding:4px 2px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.4;}
+  .info td.k{width:76px;color:var(--ink2);font-family:var(--label-font);font-size:11px;white-space:nowrap;}
+
+  /* ⑤ 四格细节特写 */
+  .strip{flex:1 1 auto;min-height:0;display:flex;gap:12px;align-items:flex-start;}
+  .cell{flex:1 1 0;min-width:0;}
+  .cell .img{width:100%;aspect-ratio:3/4;border:1.5px solid var(--rule);border-radius:2px;
+    background:repeating-linear-gradient(135deg,#EFEFEF 0 8px,#E9E9E9 8px 16px);
+    color:var(--ink2);font-size:10.5px;line-height:1.6;text-align:center;
+    display:flex;align-items:center;justify-content:center;padding:4px;}
+  .cell .cap{display:block;margin-top:5px;text-align:center;border:1px solid var(--rule);
+    border-radius:2px;background:var(--band);font-size:10px;color:var(--ink2);padding:1px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="sheet">
+
+    <!-- ① 顶栏 -->
+    <div class="hdr">
+      <div class="l">
+        <div class="t">角色资料卡</div>
+        <div class="s">春秋末期儒者 · 孔子</div>
+      </div>
+      <div class="r">
+        <b>项目名称</b>：《示例篇名》　<b>关联场景</b>：场景01（阙里庭院）<br>
+        <b>造型</b>：造型A · 褒衣博带深衣 / 方巾束发 / 麻履
+      </div>
+    </div>
+
+    <!-- 上半区 -->
+    <div class="top">
+      <!-- ② 主视觉（25%）：只有人像，区内无文字、无色块 -->
+      <div class="heroCol">
+        <div class="hero">
+          <div class="figHalf"><div class="head"></div><div class="torso"></div></div>
+          <div class="heroNote">半身 · 自头顶到腰胯 · 正面<br>脸部完整不遮</div>
+        </div>
+      </div>
+
+      <!-- ③ 三视图（75%） -->
+      <div class="viewsCol">
+        <div class="sub2">三视图</div>
+        <div class="views">
+          <div class="view">
+            <span class="tag">正视图</span>
+            <div class="figFull"><div class="head"></div><div class="torso"></div><div class="legs"></div><div class="fmask"></div></div>
+            <span class="vmask">面部灰圆遮罩</span>
+          </div>
+          <div class="view">
+            <span class="tag">侧视图</span>
+            <div class="figFull"><div class="head"></div><div class="torso"></div><div class="legs"></div><div class="fmask"></div></div>
+            <span class="vmask">侧脸按轮廓遮罩</span>
+          </div>
+          <div class="view">
+            <span class="tag">后视图</span>
+            <div class="figFull"><div class="head"></div><div class="torso"></div><div class="legs"></div></div>
+            <span class="vmask">不露脸 · 不遮</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+
+    <!-- 下半区 -->
+    <div class="bottom">
+      <!-- ④ 角色信息（30%，六行，缺项写「不详」） -->
+      <div class="col info">
+        <h3>角色信息</h3>
+        <table>
+          <tr><td class="k">姓名</td><td>孔子（仲尼）</td></tr>
+          <tr><td class="k">年代·身份</td><td>春秋末期 · 教育家、思想家</td></tr>
+          <tr><td class="k">年龄·籍贯</td><td>约六十许 · 鲁国陬邑</td></tr>
+          <tr><td class="k">性格</td><td>温润疏朗、循循善诱</td></tr>
+          <tr><td class="k">外貌·发型</td><td>清瘦、蓄须、额宽；方巾束发</td></tr>
+          <tr><td class="k">着装·气质</td><td>褒衣博带、浅色麻帛；儒雅端方</td></tr>
+        </table>
+      </div>
+
+      <!-- ⑤ 细节特写（70%，四格 3:4） -->
+      <div class="col">
+        <h3>细节特写</h3>
+        <div class="strip">
+          <div class="cell"><div class="img">左侧面<br>特写</div><span class="cap">左侧面</span></div>
+          <div class="cell"><div class="img">右侧面<br>特写</div><span class="cap">右侧面</span></div>
+          <div class="cell"><div class="img">右眼部<br>极度近景</div><span class="cap">右眼部极度近景</span></div>
+          <div class="cell"><div class="img">后面<br>发型</div><span class="cap">后面发型</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
